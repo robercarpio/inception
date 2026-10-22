@@ -96,7 +96,7 @@ mkdir -p /home/rcarpio-/data/mariadb /home/rcarpio-/data/wordpress
     └── requirements/
         ├── mariadb/
         │   ├── Dockerfile
-        │   ├── conf/99-custom.cnf    # bind-address 0.0.0.0, port, datadir
+        │   ├── conf/mariadb.cnf    # bind-address 0.0.0.0, port, datadir
         │   └── tools/init.sh         # first-run SQL setup, then exec mysqld
         ├── wordpress/
         │   ├── Dockerfile            # php8.2-fpm, WP-CLI, listen = 9000
@@ -245,7 +245,7 @@ Common changes and what they involve:
 | Change | Files to update | Then |
 |---|---|---|
 | nginx listening port | `srcs/requirements/nginx/conf/site.conf` (`listen`), `ports:` in `docker-compose.yml`, `EXPOSE` in the Dockerfile | `make down && make` |
-| MariaDB port | `conf/99-custom.cnf` (`port`), `--dbhost=mariadb:<port>` in the wordpress `init.sh` | `make fclean && make` if data was already initialised |
+| MariaDB port | `conf/mariadb.cnf` (`port`), `--dbhost=mariadb:<port>` in the wordpress `init.sh` | `make fclean && make` if data was already initialised |
 | php-fpm port | `sed` of `listen = 9000` in the wordpress Dockerfile, `fastcgi_pass wordpress:<port>` in `site.conf` | `make down && make` |
 | Domain name | `DOMAIN_NAME` in `.env`, `/etc/hosts` | `make fclean && make` (WordPress stores the URL on install) |
 | New environment variable | `srcs/.env`, then read it in the relevant `init.sh` | `make down && make` |
